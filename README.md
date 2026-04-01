@@ -68,12 +68,7 @@ pnpm install
 ### Running the API
 
 ```bash
-# Development (watch mode)
 pnpm start:dev
-
-# Production
-pnpm build
-pnpm start:prod
 ```
 
 The GraphQL Playground will be available at `http://localhost:3000/graphql`.
@@ -151,12 +146,7 @@ The test suite (`test/users.e2e-spec.ts`) covers **7 test cases** across 4 categ
 
 | Script | Description |
 |---|---|
-| `pnpm start` | Start the application |
 | `pnpm start:dev` | Start in watch mode |
-| `pnpm start:prod` | Start in production mode |
-| `pnpm build` | Build the project |
-| `pnpm test` | Run unit tests |
 | `pnpm test:e2e` | Run e2e tests |
-| `pnpm test:cov` | Run tests with coverage |
 | `pnpm lint` | Lint and fix code |
 | `pnpm format` | Format code with Prettier |
