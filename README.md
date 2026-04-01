@@ -1,98 +1,162 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# GraphQL API - User Management
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A minimal GraphQL API built with **NestJS**, **Apollo Server**, and **TypeScript**, featuring an automated test suite and Docker containerization.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Objectives
 
-## Description
+- Build a simple GraphQL API with user queries using in-memory data
+- Implement type-safe resolvers with the code-first approach
+- Create an automated e2e test suite covering functionality, performance, and security
+- Containerize the application with Docker
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Tech Stack
 
-## Project setup
+- **Runtime:** Node.js + TypeScript
+- **Framework:** NestJS 11
+- **GraphQL:** Apollo Server 5 + @nestjs/graphql (code-first)
+- **Testing:** Jest + Supertest
+- **Containerization:** Docker + Docker Compose
+- **Package Manager:** pnpm
 
-```bash
-$ pnpm install
+## GraphQL Schema
+
+```graphql
+type User {
+  id: ID!
+  name: String!
+  email: String!
+  age: Int
+}
+
+type Query {
+  getUser(id: String!): User
+  listUsers(limit: Int): [User!]!
+}
 ```
 
-## Compile and run the project
+## Project Structure
 
-```bash
-# development
-$ pnpm run start
-
-# watch mode
-$ pnpm run start:dev
-
-# production mode
-$ pnpm run start:prod
+```
+src/
+  main.ts                  # Application entry point
+  app.module.ts            # Root module with GraphQL configuration
+  users/
+    user.ts                # User ObjectType definition
+    user.module.ts         # Users feature module
+    users.resolver.ts      # GraphQL resolvers (getUser, listUsers)
+    users.service.ts       # Business logic with in-memory data
+test/
+  users.e2e-spec.ts        # E2E test suite
+  jest-e2e.json            # Jest e2e configuration
+Dockerfile                 # Multi-stage Docker build
+docker-compose.yml         # Docker Compose setup
 ```
 
-## Run tests
+## Getting Started
+
+### Prerequisites
+
+- Node.js >= 20
+- pnpm
+
+### Installation
 
 ```bash
-# unit tests
-$ pnpm run test
-
-# e2e tests
-$ pnpm run test:e2e
-
-# test coverage
-$ pnpm run test:cov
+pnpm install
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+### Running the API
 
 ```bash
-$ pnpm install -g @nestjs/mau
-$ mau deploy
+# Development (watch mode)
+pnpm start:dev
+
+# Production
+pnpm build
+pnpm start:prod
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+The GraphQL Playground will be available at `http://localhost:3000/graphql`.
 
-## Resources
+### Running with Docker
 
-Check out a few resources that may come in handy when working with NestJS:
+```bash
+docker compose up --build
+```
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+The API will be available at `http://localhost:3000/graphql`.
 
-## Support
+## Example Queries
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+### List all users
 
-## Stay in touch
+```graphql
+query {
+  listUsers {
+    id
+    name
+    email
+    age
+  }
+}
+```
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+### List users with limit
 
-## License
+```graphql
+query {
+  listUsers(limit: 1) {
+    id
+    name
+  }
+}
+```
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+### Get user by ID
+
+```graphql
+query {
+  getUser(id: "1") {
+    id
+    name
+    email
+    age
+  }
+}
+```
+
+## Testing
+
+### Run e2e tests
+
+```bash
+pnpm test:e2e
+```
+
+### Test Coverage
+
+The test suite (`test/users.e2e-spec.ts`) covers **7 test cases** across 4 categories:
+
+| Category | Test | Description |
+|---|---|---|
+| **Valid Queries** | `should return all users` | Verifies `listUsers` returns all users with correct data |
+| | `should respect the limit argument` | Verifies `listUsers(limit: 1)` returns only 1 user |
+| | `should return a user by id` | Verifies `getUser(id: "1")` returns the correct user |
+| **Error Handling** | `should return null for a non-existent user` | Verifies `getUser(id: "999")` returns `null` |
+| **Performance** | `should resolve listUsers within 100ms` | Asserts query response time is under 100ms |
+| **Security** | `should return an error when querying a non-existent field` | Verifies requesting `password` field returns a GraphQL error |
+| | `should return an error for invalid argument type` | Verifies passing `"abc"` as `limit` (Int) returns an error |
+
+## Available Scripts
+
+| Script | Description |
+|---|---|
+| `pnpm start` | Start the application |
+| `pnpm start:dev` | Start in watch mode |
+| `pnpm start:prod` | Start in production mode |
+| `pnpm build` | Build the project |
+| `pnpm test` | Run unit tests |
+| `pnpm test:e2e` | Run e2e tests |
+| `pnpm test:cov` | Run tests with coverage |
+| `pnpm lint` | Lint and fix code |
+| `pnpm format` | Format code with Prettier |
